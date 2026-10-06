@@ -454,13 +454,14 @@ final class TelegramBot: ObservableObject {
         request.httpMethod = "POST"
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         var body = Data()
-        func field(_ name: String, _ value: String) {
+        let fileField = field
+        func addField(_ name: String, _ value: String) {
             body.append(Data("--\(boundary)\r\nContent-Disposition: form-data; name=\"\(name)\"\r\n\r\n\(value)\r\n".utf8))
         }
-        field("chat_id", String(chatID))
-        for (k, v) in extra { field(k, v) }
+        addField("chat_id", String(chatID))
+        for (k, v) in extra { addField(k, v) }
         let filename = file.lastPathComponent.replacingOccurrences(of: "\"", with: "")
-        body.append(Data("--\(boundary)\r\nContent-Disposition: form-data; name=\"\(field)\"; filename=\"\(filename)\"\r\nContent-Type: \(mime)\r\n\r\n".utf8))
+        body.append(Data("--\(boundary)\r\nContent-Disposition: form-data; name=\"\(fileField)\"; filename=\"\(filename)\"\r\nContent-Type: \(mime)\r\n\r\n".utf8))
         body.append(try Data(contentsOf: file))
         body.append(Data("\r\n--\(boundary)--\r\n".utf8))
         request.httpBody = body
