@@ -72,7 +72,7 @@ struct TranscriptEditor: View {
         VStack(spacing: 0) {
             toolbar
             if let player, FileManager.default.fileExists(atPath: record.sourcePath) {
-                VideoPlayer(player: player)
+                PlayerView(player: player)
                     .frame(height: Media.isVideo(record.sourceURL) ? 220 : 54)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .padding(.horizontal, 16)
@@ -222,5 +222,21 @@ struct TranscriptEditor: View {
     private func flash(_ text: String) {
         message = text
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) { if message == text { message = nil } }
+    }
+}
+
+/// AppKit player view. SwiftUI's VideoPlayer crashes at launch in apps built with SwiftPM on macOS 27.
+struct PlayerView: NSViewRepresentable {
+    let player: AVPlayer
+
+    func makeNSView(context: Context) -> AVPlayerView {
+        let view = AVPlayerView()
+        view.player = player
+        view.controlsStyle = .inline
+        return view
+    }
+
+    func updateNSView(_ view: AVPlayerView, context: Context) {
+        if view.player !== player { view.player = player }
     }
 }
