@@ -221,7 +221,7 @@ final class TelegramBot: ObservableObject {
             do {
                 let audio = try await Speech.shared.synthesizeForTelegram(argument)
                 defer { try? FileManager.default.removeItem(at: audio) }
-                try await upload(audio, method: "sendVoice", field: "voice", mime: "audio/ogg", chatID: chat.id, extra: replyFields(replyTo))
+                try await sendVoiceOrAudio(audio, title: String(argument.prefix(40)), chatID: chat.id, extra: replyFields(replyTo))
             } catch {
                 try? await send(L("⚠️ Couldn't make the audio: %@", error.localizedDescription), to: chat.id)
             }
@@ -390,7 +390,22 @@ final class TelegramBot: ObservableObject {
         guard ensureToken() else { throw BotError.message(L("Add a bot token first.")) }
         let ogg = try await Media.convertAudio(file, to: .ogg)
         defer { try? FileManager.default.removeItem(at: ogg) }
-        try await upload(ogg, method: asVoice ? "sendVoice" : "sendAudio", field: asVoice ? "voice" : "audio", mime: "audio/ogg", chatID: chat, extra: ["title": title])
+        if asVoice {
+            try await sendVoiceOrAudio(ogg, title: title, chatID: chat, extra: [:])
+        } else {
+            try await upload(ogg, method: "sendAudio", field: "audio", mime: "audio/ogg", chatID: chat, extra: ["title": title])
+        }
+    }
+
+    /// Sends a voice message; if the user's privacy settings block voice messages, sends it as an audio file instead.
+    private func sendVoiceOrAudio(_ file: URL, title: String, chatID: Int64, extra: [String: String]) async throws {
+        do {
+            try await upload(file, method: "sendVoice", field: "voice", mime: "audio/ogg", chatID: chatID, extra: extra)
+        } catch BotError.message(let text) where text.contains("VOICE_MESSAGES_FORBIDDEN") || text.contains("voice note") {
+            var fields = extra
+            fields["title"] = title
+            try await upload(file, method: "sendAudio", field: "audio", mime: "audio/ogg", chatID: chatID, extra: fields)
+        }
     }
 
     func sendText(_ text: String, chat: Int64) async throws {
