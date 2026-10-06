@@ -1,0 +1,8 @@
+.build/
+dist/
+.swiftpm/
+*.xcodeproj/
+.DS_Store
+.claude/
+CLAUDE.md
+design/*.png

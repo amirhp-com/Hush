@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleLocalizations</key>
+	<array><string>en</string><string>fa</string></array>
+	<key>CFBundleDisplayName</key>
+	<string>Hush</string>
+	<key>CFBundleExecutable</key>
+	<string>Hush</string>
+	<key>CFBundleIconFile</key>
+	<string>Hush</string>
+	<key>CFBundleIconName</key>
+	<string>Hush</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.amirhp.Hush</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>Hush</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>HushPublicEDKey</key>
+	<string>ckZse5p/2NSLbDqxMbFxUmml3xpUXIyeOAiZiCCsSDc=</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.productivity</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>14.0</string>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Hush listens to the microphone only while Live dictation is on, and transcribes it on this Mac.</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>Hush uses System Events to shut down the Mac when you choose that as a finish action, and Terminal to install Homebrew.</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>© 2026 AmirhpCom · MIT License</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Audio and video</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.audio</string>
+				<string>public.movie</string>
+				<string>public.audiovisual-content</string>
+				<string>org.xiph.ogg-audio</string>
+				<string>org.matroska.mkv</string>
+			</array>
+		</dict>
+	</array>
+	<key>NSServices</key>
+	<array>
+		<dict>
+			<key>NSMenuItem</key>
+			<dict><key>default</key><string>Transcribe with Hush</string></dict>
+			<key>NSMessage</key>
+			<string>transcribeFiles</string>
+			<key>NSRequiredContext</key>
+			<dict/>
+			<key>NSSendFileTypes</key>
+			<array><string>public.audio</string><string>public.movie</string><string>public.audiovisual-content</string></array>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -1,0 +1,13 @@
+{
+  "fill" : {
+    "linear-gradient" : [ "display-p3:0.36,0.36,0.97,1.00", "display-p3:0.56,0.25,0.91,1.00" ]
+  },
+  "groups" : [
+    {
+      "layers" : [ { "glass" : true, "image-name" : "glyph.svg", "name" : "glyph" } ],
+      "shadow" : { "kind" : "neutral", "opacity" : 0.5 },
+      "translucency" : { "enabled" : true, "value" : 0.4 }
+    }
+  ],
+  "supported-platforms" : { "squares" : [ "macOS" ] }
+}
