@@ -29,7 +29,7 @@ macOS 14 or later, Apple silicon. Hush installs the rest from Settings → Tools
 swift test                      # unit tests for HushCore
 ```
 
-Releases: `gh release create vX.Y.Z dist/Hush.zip dist/Hush.zip.sig dist/Hush-X.Y.Z.dmg`.
+Releases: `gh release create vX.Y.Z dist/Hush.zip dist/Hush.zip.sig dist/Hush.dmg`.
 The zip is signed with the Ed25519 key from `swift scripts/release-key.swift generate`; its public key is `HushPublicEDKey` in `Resources/Info.plist`.
 
 ## Credits

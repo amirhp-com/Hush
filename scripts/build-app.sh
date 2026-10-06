@@ -52,8 +52,8 @@ if [ "${NO_DMG:-0}" != "1" ]; then
     STAGE="$(mktemp -d)"
     cp -R "$APP" "$STAGE/"
     ln -s /Applications "$STAGE/Applications"
-    rm -f "$DIST/$APP_NAME-$VERSION.dmg"
-    hdiutil create -volname "$APP_NAME" -srcfolder "$STAGE" -ov -format UDZO "$DIST/$APP_NAME-$VERSION.dmg" >/dev/null
+    rm -f "$DIST/$APP_NAME.dmg"
+    hdiutil create -volname "$APP_NAME" -srcfolder "$STAGE" -ov -format UDZO "$DIST/$APP_NAME.dmg" >/dev/null
     rm -rf "$STAGE"
 fi
 
