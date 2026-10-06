@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hush · Everything to text, right on your Mac</title>
+<meta name="description" content="Free, open-source Mac app that turns audio and video into text offline with whisper.cpp. Persian and English, subtitles, a Telegram voice-to-text bot, text to speech and live dictation.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Hush">
+<meta property="og:title" content="Hush · Everything to text, right on your Mac">
+<meta property="og:description" content="Offline transcription with whisper.cpp. Subtitles, Persian and English, a Telegram voice-to-text bot, text to speech. Free and open source.">
+<meta property="og:image" content="https://amirhp-com.github.io/Hush/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://amirhp-com.github.io/Hush/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://amirhp-com.github.io/Hush/og.png">
+<meta name="theme-color" content="#0B0A1A">
+<link rel="icon" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Vazirmatn:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0B0A1A;
+  --deep:#13112B;
+  --panel:rgba(255,255,255,.055);
+  --edge:rgba(255,255,255,.12);
+  --text:#ECEBFF;
+  --muted:#A3A0CC;
+  --indigo:#5B5BF7;
+  --violet:#8E3FE8;
+  --glow:#B48CFF;
+  --mint:#5EE6B5;
+  --display:"Sora",ui-sans-serif,system-ui,sans-serif;
+  --body:"Inter",ui-sans-serif,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --fa:"Vazirmatn",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--text);font:400 17px/1.65 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+img{max-width:100%;height:auto;display:block}
+:focus-visible{outline:2px solid var(--glow);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+.mono{font-family:var(--mono)}
+
+.aura{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+   radial-gradient(900px 520px at 78% -8%,rgba(142,63,232,.32),transparent 70%),
+   radial-gradient(760px 480px at 8% 12%,rgba(91,91,247,.28),transparent 70%),
+   radial-gradient(700px 600px at 50% 110%,rgba(91,91,247,.18),transparent 70%)}
+
+nav{position:sticky;top:0;z-index:10;backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);background:rgba(11,10,26,.55);border-bottom:1px solid var(--edge)}
+nav .wrap{display:flex;align-items:center;gap:18px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 19px var(--display);letter-spacing:-.01em}
+.brand img{width:30px;height:30px}
+nav .links{margin-left:auto;display:flex;gap:22px;font-size:15px;color:var(--muted)}
+nav .links a{text-decoration:none}
+nav .links a:hover{color:var(--text)}
+
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border-radius:999px;text-decoration:none;font:600 16px var(--body);border:1px solid var(--edge);background:var(--panel);transition:transform .15s ease,background .2s}
+.btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.09)}
+.btn.primary{border:0;background:linear-gradient(135deg,var(--indigo),var(--violet));box-shadow:0 10px 34px -10px rgba(142,63,232,.7)}
+.btn svg{width:18px;height:18px}
+
+header.hero{padding:88px 0 40px;text-align:center}
+.hero .icon{width:128px;height:128px;margin:0 auto 28px;filter:drop-shadow(0 22px 40px rgba(91,91,247,.45))}
+.eyebrow{display:inline-block;font:500 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--glow);padding:6px 12px;border:1px solid rgba(180,140,255,.3);border-radius:999px;margin-bottom:22px}
+h1{font:800 clamp(40px,6.4vw,76px)/1.04 var(--display);letter-spacing:-.035em;margin:0 auto 22px;max-width:15ch}
+h1 em{font-style:normal;background:linear-gradient(120deg,#8C8CFF,var(--glow) 60%,#F0A7FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{font-size:clamp(18px,2vw,21px);color:var(--muted);max-width:640px;margin:0 auto 34px}
+.cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.meta{margin-top:18px;font-size:14px;color:var(--muted)}
+.fa{font-family:var(--fa);direction:rtl;unicode-bidi:isolate}
+
+.shot{margin:56px auto 0;max-width:1040px;border-radius:18px;overflow:hidden;border:1px solid var(--edge);box-shadow:0 40px 120px -30px rgba(91,91,247,.55),0 0 0 1px rgba(0,0,0,.4)}
+
+section{padding:96px 0}
+.kicker{font:500 13px var(--mono);color:var(--glow);letter-spacing:.06em;text-transform:uppercase;margin:0 0 12px}
+h2{font:700 clamp(30px,4vw,46px)/1.12 var(--display);letter-spacing:-.025em;margin:0 0 16px;max-width:20ch}
+.sub{color:var(--muted);max-width:620px;margin:0 0 48px}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--panel);border:1px solid var(--edge);border-radius:20px;padding:26px;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent)}
+.card .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(91,91,247,.35),rgba(142,63,232,.35));margin-bottom:18px}
+.card .ic svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.card h3{font:600 19px var(--display);margin:0 0 8px;letter-spacing:-.01em}
+.card p{margin:0;color:var(--muted);font-size:15.5px}
+
+.split{display:grid;grid-template-columns:1fr 1.15fr;gap:56px;align-items:center}
+.split.rev{grid-template-columns:1.15fr 1fr}
+.split.rev .txt{order:2}
+.frame{border-radius:16px;overflow:hidden;border:1px solid var(--edge);box-shadow:0 30px 80px -30px rgba(0,0,0,.8)}
+ul.ticks{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+ul.ticks li{padding-left:30px;position:relative;color:#D7D5F5}
+ul.ticks li::before{content:"";position:absolute;left:0;top:7px;width:16px;height:16px;border-radius:50%;background:linear-gradient(135deg,var(--indigo),var(--violet))}
+ul.ticks li::after{content:"";position:absolute;left:5px;top:11px;width:6px;height:3px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg)}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chip{font:500 13px var(--mono);padding:6px 11px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--edge);color:#CFCDF0}
+
+.bot{display:grid;gap:10px;max-width:420px;margin-left:auto}
+.bubble{padding:12px 16px;border-radius:18px;font-size:15.5px;max-width:85%}
+.bubble.me{margin-left:auto;background:linear-gradient(135deg,#3E6BF0,#5B5BF7);border-bottom-right-radius:6px}
+.bubble.bot{background:rgba(255,255,255,.08);border:1px solid var(--edge);border-bottom-left-radius:6px}
+.bubble small{display:block;color:rgba(255,255,255,.6);font-size:12px;margin-top:4px}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:s}
+.step{background:var(--panel);border:1px solid var(--edge);border-radius:20px;padding:26px}
+.step::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--indigo),var(--violet));font:700 15px var(--display);margin-bottom:16px}
+.step h3{font:600 18px var(--display);margin:0 0 8px}
+.step p{color:var(--muted);margin:0 0 12px;font-size:15.5px}
+pre{margin:0;padding:12px 14px;border-radius:12px;background:rgba(0,0,0,.35);border:1px solid var(--edge);font:13.5px/1.5 var(--mono);overflow-x:auto;color:#D8D6FF}
+
+.credits{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.credits a{display:block;padding:18px;border-radius:16px;background:var(--panel);border:1px solid var(--edge);text-decoration:none;transition:background .2s}
+.credits a:hover{background:rgba(255,255,255,.09)}
+.credits b{display:block;font:600 16px var(--display)}
+.credits span{font-size:13.5px;color:var(--muted)}
+
+.final{text-align:center;padding:100px 0 110px}
+.final h2{margin:0 auto 18px}
+footer{border-top:1px solid var(--edge);padding:30px 0;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between}
+footer a{text-decoration:none}
+footer a:hover{color:var(--text)}
+
+@media (max-width:900px){
+  .grid,.steps{grid-template-columns:1fr 1fr}
+  .credits{grid-template-columns:1fr 1fr}
+  .split,.split.rev{grid-template-columns:1fr;gap:32px}
+  .split.rev .txt{order:0}
+  .bot{margin:0}
+  nav .links{display:none}
+}
+@media (max-width:600px){
+  .grid,.steps,.credits{grid-template-columns:1fr}
+  section{padding:70px 0}
+  header.hero{padding-top:56px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="aura" aria-hidden="true"></div>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="assets/logo.png" alt="">Hush</a>
+    <div class="links">
+      <a href="#features">Features</a>
+      <a href="#telegram">Telegram</a>
+      <a href="#install">Install</a>
+      <a href="#credits">Credits</a>
+      <a href="https://github.com/amirhp-com/Hush">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <img class="icon" src="assets/logo.png" alt="Hush app icon" width="128" height="128">
+    <span class="eyebrow">Free · Open source · Offline</span>
+    <h1>Everything to <em>text</em>, right on your Mac.</h1>
+    <p class="lede">Drop in audio or video and Hush turns the speech into text, subtitles or a document. It runs whisper.cpp on your own Mac, so nothing is uploaded, and it speaks Persian as well as English.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/amirhp-com/Hush/releases/latest">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+        Download for macOS
+      </a>
+      <a class="btn" href="https://github.com/amirhp-com/Hush">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.33-1.3-1.69-1.3-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.04 1.78 2.72 1.27 3.38.97.1-.75.4-1.27.74-1.56-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.27 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+        Source on GitHub
+      </a>
+    </div>
+    <p class="meta">macOS 14 or later · Apple silicon · <span class="fa">فارسی</span> and English</p>
+    <img class="shot" src="assets/transcribe.jpg" alt="The Hush window: drop files to transcribe, choose language, model and output formats" width="1600" height="1110">
+  </div>
+</header>
+
+<section id="features">
+  <div class="wrap">
+    <p class="kicker">What it does</p>
+    <h2>One app for speech, text and everything in between.</h2>
+    <p class="sub">Hush wraps proven open-source tools in a window anyone can use. Pick files, press Start, get text.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 10v4M8 6v12M12 9v6M16 11v2M20 8h-1M20 12h-1M20 16h-1"/></svg></div>
+        <h3>Any audio or video</h3>
+        <p>OGG and Opus voice notes, WAV, MP3, M4A, FLAC, plus MP4, MKV, MOV and WebM videos. FFmpeg handles the conversion.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg></div>
+        <h3>Ten export formats</h3>
+        <p>PDF, Word, plain text, timestamped text, SRT and VTT subtitles, LRC, CSV, JSON and Markdown. PDF and Word are right-to-left for Persian.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M5 4h14M5 9h14M5 14h9M5 19h6M17 15l2 2 3-4"/></svg></div>
+        <h3>A queue that works for you</h3>
+        <p>Add a folder and walk away. Progress and time left for every file, then a notification, a sound, a Telegram message, sleep or shut down.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 5h16v10H8l-4 4z"/></svg></div>
+        <h3>Edit with playback</h3>
+        <p>Every line is linked to its moment in the recording. Click to hear it, fix the words, find and replace, then export again.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4zM15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></div>
+        <h3>Text to speech</h3>
+        <p>Read any text aloud with macOS voices or natural Piper voices, including Persian. Save as MP3, M4A, WAV or OGG.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
+        <h3>Live dictation</h3>
+        <p>Talk into the microphone and the words appear as you speak, transcribed by a local whisper-server.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap split">
+    <div class="txt">
+      <p class="kicker">Made for Persian</p>
+      <h2>A first-class Persian experience.</h2>
+      <p class="sub" style="margin-bottom:28px">Switch the whole interface to Persian and it flips right to left. Transcripts get their letters and spacing fixed automatically.</p>
+      <ul class="ticks">
+        <li>Full <span class="fa">فارسی</span> interface with right-to-left layout</li>
+        <li>Automatic cleanup: <span class="fa">ی، ک</span> and the zero-width non-joiner</li>
+        <li>Persian voices for text to speech, powered by Piper</li>
+        <li>Right-to-left PDF and Word exports</li>
+      </ul>
+    </div>
+    <div class="frame"><img src="assets/queue-fa.jpg" alt="The Hush queue with the Persian interface" loading="lazy" width="1600" height="1110"></div>
+  </div>
+</section>
+
+<section id="telegram">
+  <div class="wrap split rev">
+    <div class="txt">
+      <p class="kicker">Telegram</p>
+      <h2>Your Mac becomes a voice-to-text bot.</h2>
+      <p class="sub" style="margin-bottom:28px">Connect your own bot and send it voice messages, audio or video from your phone. Hush transcribes them on the Mac and replies with the text.</p>
+      <ul class="ticks">
+        <li>Chats are paired on the Mac with Allow / Deny, so only you decide who can use it</li>
+        <li>Reply as text, an SRT file or both, in the language you choose</li>
+        <li><span class="mono">/tts</span> reads any text back as audio</li>
+        <li>Send finished transcripts and extracted audio to Telegram from the app</li>
+        <li>HTTP and SOCKS proxy support for filtered networks</li>
+      </ul>
+    </div>
+    <div class="bot" aria-label="Example Telegram chat">
+      <div class="bubble me">🎙 Voice message · 0:42</div>
+      <div class="bubble bot">⏳ Got it, transcribing…</div>
+      <div class="bubble bot fa">سلام، جلسه‌ی فردا ساعت ده برگزار می‌شود. لطفاً گزارش هفتگی را هم همراه داشته باشید.<small>Hush · 2 seconds later</small></div>
+      <div class="bubble me"><span class="mono">/tts</span> Meeting moved to 10 am</div>
+      <div class="bubble bot">🔊 Audio · 0:03</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap split">
+    <div class="txt">
+      <p class="kicker">Everything in one place</p>
+      <h2>Models, tools and updates without the terminal.</h2>
+      <p class="sub" style="margin-bottom:28px">Hush checks what it needs and installs it with one click through Homebrew. Pick a speech model by size, speed and accuracy and download it in the app.</p>
+      <ul class="ticks">
+        <li>whisper.cpp, FFmpeg and Piper installed and updated from Settings</li>
+        <li>Every Whisper model, from tiny to large-v3-turbo</li>
+        <li>Liquid Glass, translucent or solid window, like Terminal</li>
+        <li>Signed self-updates from GitHub Releases</li>
+      </ul>
+      <div class="chips"><span class="chip">whisper.cpp</span><span class="chip">large-v3-turbo</span><span class="chip">FFmpeg</span><span class="chip">Piper</span><span class="chip">Silero VAD</span></div>
+    </div>
+    <div class="frame"><img src="assets/settings.jpg" alt="Hush settings in the main window" loading="lazy" width="1600" height="1206"></div>
+  </div>
+</section>
+
+<section id="install">
+  <div class="wrap">
+    <p class="kicker">Get started</p>
+    <h2>Up and running in three steps.</h2>
+    <p class="sub">Hush is free. The speech tools run locally, so after the first setup it works without internet.</p>
+    <div class="steps">
+      <div class="step">
+        <h3>Download Hush</h3>
+        <p>Get the latest DMG from GitHub Releases and drag Hush to Applications. The first time, right-click it and choose Open.</p>
+        <pre>github.com/amirhp-com/Hush/releases</pre>
+      </div>
+      <div class="step">
+        <h3>Install the tools</h3>
+        <p>The welcome screen installs them for you, or run this in Terminal:</p>
+        <pre>brew install whisper.cpp ffmpeg</pre>
+      </div>
+      <div class="step">
+        <h3>Pick a model</h3>
+        <p>large-v3-turbo-q5_0 (574 MB) is a good balance for Persian and English. Then drop your files in and press Start.</p>
+        <pre>Settings → Models</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="credits">
+  <div class="wrap">
+    <p class="kicker">Built with</p>
+    <h2>Standing on great open source.</h2>
+    <p class="sub">Hush runs these tools as separate programs. Thanks to everyone who builds them.</p>
+    <div class="credits">
+      <a href="https://github.com/ggml-org/whisper.cpp"><b>whisper.cpp</b><span>Speech recognition · MIT</span></a>
+      <a href="https://github.com/openai/whisper"><b>OpenAI Whisper</b><span>Speech models · MIT</span></a>
+      <a href="https://ffmpeg.org"><b>FFmpeg</b><span>Audio and video · LGPL/GPL</span></a>
+      <a href="https://github.com/OHF-Voice/piper1-gpl"><b>Piper</b><span>Text to speech · GPL-3.0</span></a>
+      <a href="https://huggingface.co/rhasspy/piper-voices"><b>Piper voices</b><span>Per-voice licenses</span></a>
+      <a href="https://github.com/snakers4/silero-vad"><b>Silero VAD</b><span>Speech detection · MIT</span></a>
+      <a href="https://brew.sh"><b>Homebrew</b><span>Package manager · BSD-2</span></a>
+      <a href="https://core.telegram.org/bots/api"><b>Telegram Bot API</b><span>Bot and sharing</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2>Turn your recordings into text tonight.</h2>
+    <p class="lede">Free, open source, and private by design.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/amirhp-com/Hush/releases/latest">Download Hush</a>
+      <a class="btn" href="https://github.com/amirhp-com/Hush/issues">Report an issue</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 <a href="https://amirhp.com">AmirhpCom</a> · MIT License</span>
+    <span><a href="https://github.com/amirhp-com/Hush">GitHub</a> · <a href="https://github.com/amirhp-com/Hush/releases">Releases</a> · <a href="https://github.com/amirhp-com/Hush/blob/main/CHANGELOG.md">Changelog</a></span>
+  </div>
+</footer>
+</body>
+</html>
