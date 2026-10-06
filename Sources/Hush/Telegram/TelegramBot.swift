@@ -404,9 +404,12 @@ final class TelegramBot: ObservableObject {
         } catch {
             let text = error.localizedDescription
             guard text.localizedCaseInsensitiveContains("VOICE_MESSAGES_FORBIDDEN") || text.localizedCaseInsensitiveContains("voice note") else { throw error }
+            // Telegram turns Opus audio into a voice note, which is blocked too, so send an MP3 instead.
+            let mp3 = try await Media.convertAudio(file, to: .mp3)
+            defer { try? FileManager.default.removeItem(at: mp3) }
             var fields = extra
             fields["title"] = title
-            try await upload(file, method: "sendAudio", field: "audio", mime: "audio/ogg", chatID: chatID, extra: fields)
+            try await upload(mp3, method: "sendAudio", field: "audio", mime: "audio/mpeg", chatID: chatID, extra: fields)
         }
     }
 
