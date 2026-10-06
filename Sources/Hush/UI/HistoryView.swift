@@ -129,7 +129,7 @@ struct TranscriptEditor: View {
                 flash(L("Copied"))
             } label: { Image(systemName: "doc.on.doc") }.help(L("Copy all text"))
             Menu {
-                ForEach(ExportFormat.allCases) { f in Button(f.title) { export(f) } }
+                ForEach(ExportFormat.allCases) { f in Button(L(f.title)) { export(f) } }
             } label: { Label(L("Export"), systemImage: "square.and.arrow.up") }
                 .fixedSize()
             if !telegram.allowedChats.isEmpty {

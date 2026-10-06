@@ -212,7 +212,7 @@ struct FormatChips: View {
                         .foregroundStyle(on ? .white : .primary)
                 }
                 .buttonStyle(.plain)
-                .help(format.title)
+                .help(L(format.title))
             }
         }
     }
