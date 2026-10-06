@@ -401,7 +401,9 @@ final class TelegramBot: ObservableObject {
     private func sendVoiceOrAudio(_ file: URL, title: String, chatID: Int64, extra: [String: String]) async throws {
         do {
             try await upload(file, method: "sendVoice", field: "voice", mime: "audio/ogg", chatID: chatID, extra: extra)
-        } catch BotError.message(let text) where text.contains("VOICE_MESSAGES_FORBIDDEN") || text.contains("voice note") {
+        } catch {
+            let text = error.localizedDescription
+            guard text.localizedCaseInsensitiveContains("VOICE_MESSAGES_FORBIDDEN") || text.localizedCaseInsensitiveContains("voice note") else { throw error }
             var fields = extra
             fields["title"] = title
             try await upload(file, method: "sendAudio", field: "audio", mime: "audio/ogg", chatID: chatID, extra: fields)
