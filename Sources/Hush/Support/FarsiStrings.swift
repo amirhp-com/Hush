@@ -264,6 +264,8 @@ enum FarsiStrings {
         """,
 
         // Settings
+        "Settings": "تنظیمات",
+        "Settings…": "تنظیمات…",
         "General": "عمومی",
         "Appearance": "ظاهر",
         "Models": "مدل‌ها",

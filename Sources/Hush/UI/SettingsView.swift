@@ -8,7 +8,7 @@ final class SettingsRouter: ObservableObject {
 }
 
 enum SettingsTab: String, CaseIterable, Identifiable {
-    case general, appearance, models, voices, tools, network, about
+    case general, appearance, models, voices, tools, network
     var id: String { rawValue }
     var title: String {
         switch self {
@@ -18,7 +18,6 @@ enum SettingsTab: String, CaseIterable, Identifiable {
         case .voices: return L("Voices")
         case .tools: return L("Tools")
         case .network: return L("Network")
-        case .about: return L("About")
         }
     }
     var symbol: String {
@@ -29,7 +28,6 @@ enum SettingsTab: String, CaseIterable, Identifiable {
         case .voices: return "person.wave.2"
         case .tools: return "wrench.and.screwdriver"
         case .network: return "network"
-        case .about: return "info.circle"
         }
     }
 }
@@ -45,7 +43,8 @@ struct SettingsView: View {
                     .tag(tab)
             }
         }
-        .frame(width: 680, height: 600)
+        .padding(16)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .noFocusRing()
     }
 
@@ -57,7 +56,6 @@ struct SettingsView: View {
         case .voices: VoicesSettings()
         case .tools: ToolsSettings()
         case .network: NetworkSettings()
-        case .about: AboutView()
         }
     }
 }
@@ -114,6 +112,7 @@ struct GeneralSettings: View {
             }
         }
         .formStyle(.grouped)
+        .scrollContentBackground(.hidden)
     }
 }
 
@@ -174,6 +173,7 @@ struct AppearanceSettings: View {
             }
         }
         .formStyle(.grouped)
+        .scrollContentBackground(.hidden)
     }
 }
 
@@ -231,6 +231,7 @@ struct ModelsSettings: View {
             if let error = store.error { Text(error).font(.caption).foregroundStyle(.orange) }
         }
         .formStyle(.grouped)
+        .scrollContentBackground(.hidden)
         .task { await store.refreshCatalog() }
     }
 }
@@ -335,6 +336,7 @@ struct VoicesSettings: View {
             if let error = speech.error { Text(error).font(.caption).foregroundStyle(.orange) }
         }
         .formStyle(.grouped)
+        .scrollContentBackground(.hidden)
         .task { if speech.piperCatalog.isEmpty { await speech.refreshPiperCatalog() } }
     }
 }
@@ -371,6 +373,7 @@ struct ToolsSettings: View {
             }
         }
         .formStyle(.grouped)
+        .scrollContentBackground(.hidden)
         .task { await tools.refresh() }
     }
 }
@@ -434,5 +437,6 @@ struct NetworkSettings: View {
             }
         }
         .formStyle(.grouped)
+        .scrollContentBackground(.hidden)
     }
 }

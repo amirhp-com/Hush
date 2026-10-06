@@ -108,8 +108,7 @@ struct TranscribeView: View {
                             }
                             .labelsHidden().frame(maxWidth: 240, alignment: .leading)
                         }
-                        SettingsLink { Text(L("Get more…")) }
-                            .simultaneousGesture(TapGesture().onEnded { SettingsRouter.shared.tab = .models })
+                        Button(L("Get more…")) { Router.shared.openSettings(.models) }
                     }
                 }
                 GridRow(alignment: .top) {

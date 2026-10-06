@@ -46,8 +46,7 @@ struct SpeakView: View {
                         Section(L("macOS voices")) { ForEach(speech.systemVoices) { Text("\($0.name) · \($0.language)").tag($0.id) } }
                     }
                     .frame(maxWidth: 380)
-                    SettingsLink { Text(L("Get Persian voices…")) }
-                        .simultaneousGesture(TapGesture().onEnded { SettingsRouter.shared.tab = .voices })
+                    Button(L("Get Persian voices…")) { Router.shared.openSettings(.voices) }
                 }
                 HStack {
                     Text(L("Speed"))

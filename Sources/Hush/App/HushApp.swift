@@ -19,11 +19,6 @@ struct HushApp: App {
         .defaultSize(width: 980, height: 680)
         .commands { HushCommands() }
 
-        Settings {
-            SettingsView()
-                .localized()
-        }
-
         MenuBarExtra(isInserted: Binding(get: { settings.showMenuBarIcon },
                                          set: { if $0 != settings.showMenuBarIcon { settings.showMenuBarIcon = $0 } })) {
             MenuBarView().localized()
@@ -56,6 +51,11 @@ final class Router: ObservableObject {
     static let shared = Router()
     @Published var tab: MainTab = .transcribe
     @Published var openRecord: UUID?
+
+    func openSettings(_ tab: SettingsTab) {
+        SettingsRouter.shared.tab = tab
+        self.tab = .settings
+    }
 }
 
 struct HushCommands: Commands {
@@ -65,6 +65,9 @@ struct HushCommands: Commands {
         CommandGroup(replacing: .newItem) {
             Button(L("Add Files…")) { FilePicker.addToQueue() }.keyboardShortcut("o")
             Button(L("Start Queue")) { Task { @MainActor in JobQueue.shared.start() } }.keyboardShortcut(.return, modifiers: .command)
+        }
+        CommandGroup(replacing: .appSettings) {
+            Button(L("Settings…")) { Router.shared.tab = .settings; openWindow(id: "main") }.keyboardShortcut(",")
         }
         CommandMenu(L("Go")) {
             ForEach(Array(MainTab.allCases.enumerated()), id: \.element) { index, tab in

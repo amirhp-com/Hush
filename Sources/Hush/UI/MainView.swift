@@ -1,7 +1,10 @@
 import SwiftUI
 
 enum MainTab: String, CaseIterable, Identifiable {
-    case transcribe, queue, history, speak, live, telegram
+    case transcribe, queue, history, speak, live, telegram, settings, about
+
+    static let tools: [MainTab] = [.transcribe, .queue, .history, .speak, .live, .telegram]
+    static let app: [MainTab] = [.settings, .about]
     var id: String { rawValue }
 
     var title: String {
@@ -12,6 +15,8 @@ enum MainTab: String, CaseIterable, Identifiable {
         case .speak: return L("Speak")
         case .live: return L("Live")
         case .telegram: return L("Telegram")
+        case .settings: return L("Settings")
+        case .about: return L("About")
         }
     }
 
@@ -23,6 +28,8 @@ enum MainTab: String, CaseIterable, Identifiable {
         case .speak: return "speaker.wave.2.bubble"
         case .live: return "mic"
         case .telegram: return "paperplane"
+        case .settings: return "gearshape"
+        case .about: return "info.circle"
         }
     }
 }
@@ -37,10 +44,19 @@ struct MainView: View {
     var body: some View {
         NavigationSplitView {
             List(selection: Binding(get: { router.tab }, set: { if let t = $0 { router.tab = t } })) {
-                ForEach(MainTab.allCases) { tab in
-                    Label(tab.title, systemImage: tab.symbol)
-                        .badge(badge(for: tab))
-                        .tag(tab)
+                Section {
+                    ForEach(MainTab.tools) { tab in
+                        Label(tab.title, systemImage: tab.symbol)
+                            .badge(badge(for: tab))
+                            .tag(tab)
+                    }
+                }
+                Section {
+                    ForEach(MainTab.app) { tab in
+                        Label(tab.title, systemImage: tab.symbol).tag(tab)
+                    }
+                } header: {
+                    Rectangle().fill(Color.secondary.opacity(0.3)).frame(maxWidth: .infinity).frame(height: 1).padding(.vertical, 6)
                 }
             }
             .navigationSplitViewColumnWidth(min: 170, ideal: 190)
@@ -71,6 +87,8 @@ struct MainView: View {
         case .speak: SpeakView()
         case .live: LiveView()
         case .telegram: TelegramView()
+        case .settings: SettingsView()
+        case .about: AboutView()
         }
     }
 
@@ -108,8 +126,7 @@ private struct MissingToolsBanner: View {
             Text(L("Some tools Hush needs aren't installed: %@", tools.missingRequired.map(\.title).joined(separator: "، ")))
                 .font(.callout)
             Spacer()
-            SettingsLink { Text(L("Open Tools")) }
-                .simultaneousGesture(TapGesture().onEnded { SettingsRouter.shared.tab = .tools })
+            Button(L("Open Tools")) { Router.shared.openSettings(.tools) }
         }
         .padding(12)
         .glassCard(cornerRadius: 12)

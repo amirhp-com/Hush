@@ -98,11 +98,12 @@ enum BlurRadius {
 
 extension View {
     @ViewBuilder
-    func glassCard(cornerRadius: CGFloat = 14) -> some View {
+    func glassCard(cornerRadius: CGFloat = 14, fullWidth: Bool = true) -> some View {
+        let sized = frame(maxWidth: fullWidth ? .infinity : nil, alignment: .leading)
         if #available(macOS 26.0, *) {
-            glassEffect(.regular, in: .rect(cornerRadius: cornerRadius))
+            sized.glassEffect(.regular, in: .rect(cornerRadius: cornerRadius))
         } else {
-            background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+            sized.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
         }
     }
 
