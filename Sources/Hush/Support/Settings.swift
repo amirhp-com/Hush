@@ -131,7 +131,7 @@ final class AppSettings: ObservableObject {
         modelsDirectory = d.string(forKey: "modelsDir") ?? (NSHomeDirectory() + "/.cache/whisper-cpp-models")
         defaultModel = d.string(forKey: "defaultModel") ?? "ggml-large-v3-turbo-q5_0.bin"
         spokenLanguage = d.string(forKey: "spokenLanguage") ?? "auto"
-        formats = Set((d.stringArray(forKey: "formats") ?? ["txt", "srt"]).compactMap(ExportFormat.init(rawValue:)))
+        formats = Set((d.stringArray(forKey: "formats") ?? ["pdf"]).compactMap(ExportFormat.init(rawValue:)))
         outputFolder = d.string(forKey: "outputFolder") ?? ""
         translateToEnglish = d.bool(forKey: "translate")
         useVAD = d.bool(forKey: "vad")
